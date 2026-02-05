@@ -1,20 +1,34 @@
-"use client";
-import { Button } from "@/components/ui/button";
-import { SignedIn, SignOutButton } from "@clerk/clerk-react";
-import { SignedOut, SignUpButton } from "@clerk/nextjs";
-import Image from "next/image";
 
-export default function Home() {
+
+import Footer from "@/components/landing/Footer";
+import Header from "@/components/landing/Header";
+import Hero from "@/components/landing/Hero";
+import HowItWorks from "@/components/landing/HowItWorks";
+import PricingSection from "@/components/landing/PricingSection";
+import WhatToAsk from "@/components/landing/WhatToAsk";
+import CTA from "@/components/landing/CTA";
+import { syncUser } from "@/lib/actions/users";
+import { currentUser } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
+
+export default async function Home() {
+  const user = await currentUser();
+
+  // the best way of syncing => webhooks
+  //await syncUser();
+
+  // redirect auth user to dashboard
+  if (user) redirect("/dashboard");
+
   return (
-    <div>
-      <h1>Home page</h1>
-      <SignedOut>
-      <SignUpButton mode="modal">Sign Up</SignUpButton>
-      </SignedOut>
-
-      <SignedIn>
-        <SignOutButton>LogOut</SignOutButton>
-      </SignedIn>
+    <div className="min-h-screen bg-background">
+      <Header />
+      <Hero />
+      <HowItWorks />
+      <WhatToAsk />
+      <PricingSection />
+      <CTA />
+      <Footer />
     </div>
   );
 }
