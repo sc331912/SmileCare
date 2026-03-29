@@ -6,9 +6,11 @@ import WelcomeSection from "@/components/voice/WelcomeSection";
 import { auth } from "@clerk/nextjs/server";
 
 async function VoicePage() {
-  const { has } = await auth();
+  const authRecord = await auth();
 
-  const hasProPlan = has({ plan: "ai_basic" }) || has({ plan: "ai_pro" });
+  // Check the raw session claims to see if the user's active entitlements include the purchased plan
+  const claimsStr = JSON.stringify(authRecord.sessionClaims || {});
+  const hasProPlan = claimsStr.includes("ai_basic") || claimsStr.includes("ai_pro");
 
   if (!hasProPlan) return <ProPlanRequired />;
 

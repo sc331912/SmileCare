@@ -1,29 +1,18 @@
-import Navbar from "@/components/Navbar";
-import FeatureCards from "@/components/voice/FeatureCards";
-import ProPlanRequired from "@/components/voice/ProPlanRequired";
-import VapiWidget from "@/components/voice/VapiWidget";
-import WelcomeSection from "@/components/voice/WelcomeSection";
-import { auth } from "@clerk/nextjs/server";
-
-async function VoicePage() {
-  const { has } = await auth();
-
-  const hasProPlan = has({ plan: "ai_basic" }) || has({ plan: "ai_pro" });
-
-  if (!hasProPlan) return <ProPlanRequired />;
-
+export default function FeatureCards() {
   return (
-    <div className="min-h-screen bg-background">
-      <Navbar />
-
-      <div className="max-w-7xl mx-auto px-6 py-8 pt-24">
-        <WelcomeSection />
-        <FeatureCards />
+    <div className="grid md:grid-cols-3 gap-6 mt-12">
+      <div className="p-6 bg-card rounded-2xl border">
+        <h3 className="font-bold text-lg mb-2">24/7 Availability</h3>
+        <p className="text-muted-foreground text-sm">Talk to our AI assistant anytime, anywhere.</p>
       </div>
-
-      <VapiWidget />
+      <div className="p-6 bg-card rounded-2xl border">
+        <h3 className="font-bold text-lg mb-2">Instant Advice</h3>
+        <p className="text-muted-foreground text-sm">Get immediate answers to your dental concerns.</p>
+      </div>
+      <div className="p-6 bg-card rounded-2xl border">
+        <h3 className="font-bold text-lg mb-2">Natural Voice</h3>
+        <p className="text-muted-foreground text-sm">Experience lifelike, conversational interactions.</p>
+      </div>
     </div>
   );
 }
-
-export default VoicePage;
