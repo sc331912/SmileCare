@@ -5,6 +5,8 @@ import VapiWidget from "@/components/voice/VapiWidget";
 import WelcomeSection from "@/components/voice/WelcomeSection";
 import { auth } from "@clerk/nextjs/server";
 
+export const dynamic = "force-dynamic";
+
 async function VoicePage() {
   const authRecord = await auth();
 
