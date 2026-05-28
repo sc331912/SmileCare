@@ -26,7 +26,10 @@ export async function syncUser() {
     });
 
     return dbUser;
-  } catch (error) {
+  } catch (error: any) {
+    if (error && typeof error === "object" && (error.digest === "DYNAMIC_SERVER_USAGE" || error.message?.includes("Dynamic server usage"))) {
+      throw error;
+    }
     console.log("Error in syncUser server action", error);
   }
 }

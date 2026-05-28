@@ -62,7 +62,10 @@ export async function getUserAppointments() {
     });
 
     return appointments.map(transformAppointment);
-  } catch (error) {
+  } catch (error: any) {
+    if (error && typeof error === "object" && (error.digest === "DYNAMIC_SERVER_USAGE" || error.message?.includes("Dynamic server usage"))) {
+      throw error;
+    }
     console.error("Error fetching user appointments:", error);
     throw new Error("Failed to fetch user appointments");
   }
@@ -98,7 +101,10 @@ export async function getUserAppointmentStats() {
       totalAppointments: totalCount,
       completedAppointments: completedCount,
     };
-  } catch (error) {
+  } catch (error: any) {
+    if (error && typeof error === "object" && (error.digest === "DYNAMIC_SERVER_USAGE" || error.message?.includes("Dynamic server usage"))) {
+      throw error;
+    }
     console.error("Error fetching user appointment stats:", error);
     return { totalAppointments: 0, completedAppointments: 0 };
   }
