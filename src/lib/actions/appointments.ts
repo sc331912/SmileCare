@@ -63,7 +63,14 @@ export async function getUserAppointments() {
 
     return appointments.map(transformAppointment);
   } catch (error: any) {
-    if (error && typeof error === "object" && (error.digest === "DYNAMIC_SERVER_USAGE" || error.message?.includes("Dynamic server usage"))) {
+    if (
+      error &&
+      typeof error === "object" &&
+      (error.digest === "DYNAMIC_SERVER_USAGE" ||
+        error.name === "DynamicServerError" ||
+        error.message?.toLowerCase().includes("dynamic server usage") ||
+        error.message?.toLowerCase().includes("dynamic-server-error"))
+    ) {
       throw error;
     }
     console.error("Error fetching user appointments:", error);
@@ -102,7 +109,14 @@ export async function getUserAppointmentStats() {
       completedAppointments: completedCount,
     };
   } catch (error: any) {
-    if (error && typeof error === "object" && (error.digest === "DYNAMIC_SERVER_USAGE" || error.message?.includes("Dynamic server usage"))) {
+    if (
+      error &&
+      typeof error === "object" &&
+      (error.digest === "DYNAMIC_SERVER_USAGE" ||
+        error.name === "DynamicServerError" ||
+        error.message?.toLowerCase().includes("dynamic server usage") ||
+        error.message?.toLowerCase().includes("dynamic-server-error"))
+    ) {
       throw error;
     }
     console.error("Error fetching user appointment stats:", error);
